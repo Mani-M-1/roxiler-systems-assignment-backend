@@ -199,24 +199,42 @@ app.get('/tasks/:taskId', async (req, res) => {
 
 
 // update specific task
+// app.put('/tasks/:taskId', async (req, res) => {
+//     try {
+//         const {title, description, image, price, category, sold, dateOfSale} = req.body;
+//         const query = `
+//             UPDATE transactions 
+//             SET title='${title}', description='${description}', image='${image}', price='${price}', category='${category}', sold='${sold}'
+//             WHERE id = '${req.params.taskId}';
+//         `;
+
+//         await db.run(query);
+
+
+//         res.status(200).json({message: "Task updated successfully!"});
+//     }
+//     catch(err) {
+//         res.status(500).json({message: err.message});
+//     }
+// })
+
 app.put('/tasks/:taskId', async (req, res) => {
     try {
-        const {title, description, image, price, category, sold, dateOfSale} = req.body;
+        const { title, description, image, price, category, sold} = req.body;
         const query = `
             UPDATE transactions 
-            SET title='${title}', description='${description}', image='${image}', price=${price}, category='${category}', sold=${sold}
-            WHERE id = '${req.params.taskId}'
+            SET title=?, description=?, image=?, price=?, category=?, sold=?
+            WHERE id = ?
         `;
 
-        await db.run(query);
+        await db.run(query, [title, description, image, price, category, sold, req.params.taskId]);
 
+        res.status(200).json({ message: "Task updated successfully!" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
 
-        res.status(200).json({message: "Task updated successfully!"});
-    }
-    catch(err) {
-        res.status(500).json({message: err.message});
-    }
-})
 
 
 // create a new task
