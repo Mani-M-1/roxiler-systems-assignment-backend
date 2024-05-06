@@ -78,6 +78,13 @@ const fetchAndInsert = async () => {
 // fetchAndInsert(); run only once to store data in database
 
 
+// defaulf msg to show when deployed
+app.get('/', async (req, res) => {
+    res.status(200).json({message: "Backend running successfully!"});
+})
+
+
+// get all tasks
 app.get('/tasks', async (req, res) => {
     console.log(req.query);
     if (req.query.search_q !== "" && req.query.month !== "") {
@@ -168,6 +175,7 @@ app.get('/tasks', async (req, res) => {
 })
 
 
+// get specific task by id 
 app.get('/tasks/:taskId', async (req, res) => {
     try {
         const query = `
@@ -190,6 +198,7 @@ app.get('/tasks/:taskId', async (req, res) => {
 })
 
 
+// update specific task
 app.put('/tasks/:taskId', async (req, res) => {
     try {
         const {title, description, image, price, sold} = req.body;
@@ -210,6 +219,7 @@ app.put('/tasks/:taskId', async (req, res) => {
 })
 
 
+// create a new task
 app.post('/tasks', async (req, res) => {
     console.log(req.body);
     try {
