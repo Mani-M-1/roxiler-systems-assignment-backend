@@ -75,7 +75,7 @@ const fetchAndInsert = async () => {
   console.log("Transactions added");
 };
 
-// fetchAndInsert(); run only once to store data in database
+// fetchAndInsert(); //run only once to store data in database
 
 
 // defaulf msg to show when deployed
@@ -201,11 +201,11 @@ app.get('/tasks/:taskId', async (req, res) => {
 // update specific task
 app.put('/tasks/:taskId', async (req, res) => {
     try {
-        const {title, description, image, price, sold} = req.body;
+        const {title, description, image, price, category, sold, dateOfSale} = req.body;
         const query = `
             UPDATE transactions 
-            SET title='${title}', description='${description}', image='${image}', price='${price}', sold='${sold}', dateOfSale='${new Date()}'
-            WHERE id = ${req.params.taskId}
+            SET title='${title}', description='${description}', image='${image}', price=${price}, category='${category}', sold=${sold}
+            WHERE id = '${req.params.taskId}'
         `;
 
         await db.run(query);
